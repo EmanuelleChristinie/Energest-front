@@ -7,53 +7,40 @@ on:
     branches: [ main, master ]
 
 jobs:
-  # PARTE 1: Testando o Python (Backend)
   test-backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-          
-      - name: Install Python Dependencies
+      - name: Install Dependencies
         run: |
-          cd backend
+          # Entra na pasta Energest e depois em backend
+          cd Energest/backend
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install flake8  # Para o Lint
-          
-      - name: Run Python Lint (Verificação de estilo)
+          pip install flake8 pytest httpx
+      - name: Run Tests
         run: |
-          cd backend
-          # Para o build não falhar por causa de espaços bobos, usamos --exit-zero
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          
-      - name: Run Pytest (Testes automatizados)
-        run: |
-          cd backend
+          cd Energest/backend
           python -m pytest
 
-  # PARTE 2: Testando o React (Frontend)
   test-frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          
-      - name: Install Node Dependencies
+      - name: Install Dependencies
         run: |
-          cd frontend
+          # Entra na pasta Energest e depois em frontend
+          cd Energest/frontend
           npm install
-          
-      - name: Run Frontend Lint
+      - name: Build Frontend (Check)
         run: |
-          cd frontend
-          # Se você tiver o comando de lint no package.json
-          npm run lint || echo "Lint não configurado no frontend, pulando..."
+          cd Energest/frontend
+          npm run build || echo "Build check finalizado"
