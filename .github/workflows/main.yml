@@ -11,21 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+          
       - name: Install Dependencies
         run: |
-          cd Energest/backend
+          # Entra direto na pasta backend (sem o prefixo Energest/)
+          cd backend
           python -m pip install --upgrade pip
-          # Instalando as bibliotecas base diretamente para evitar erros de requirements
           pip install pytest httpx joblib pandas fastapi uvicorn
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          
       - name: Run Tests
         run: |
-          cd Energest/backend
-          # O export PYTHONPATH ajuda o robô a encontrar a pasta 'app'
+          cd backend
           export PYTHONPATH=$PYTHONPATH:.
           python -m pytest
 
@@ -33,16 +35,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          
       - name: Install Dependencies
         run: |
-          # Entra na pasta Energest e depois em frontend
-          cd Energest/frontend
+          # Entra direto na pasta frontend
+          cd frontend
           npm install
+          
       - name: Build Frontend (Check)
         run: |
-          cd Energest/frontend
+          cd frontend
           npm run build || echo "Build check finalizado"
