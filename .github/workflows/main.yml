@@ -19,15 +19,15 @@ jobs:
           
       - name: Install Dependencies
         run: |
-          # Entra direto na pasta backend (sem o prefixo Energest/)
-          cd backend
+          # Note que o 'E' é maiúsculo conforme seu print do VS Code
+          cd Energest/backend
           python -m pip install --upgrade pip
           pip install pytest httpx joblib pandas fastapi uvicorn
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           
       - name: Run Tests
         run: |
-          cd backend
+          cd Energest/backend
           export PYTHONPATH=$PYTHONPATH:.
           python -m pytest
 
@@ -43,11 +43,10 @@ jobs:
           
       - name: Install Dependencies
         run: |
-          # Entra direto na pasta frontend
-          cd frontend
+          cd Energest/frontend
           npm install
           
       - name: Build Frontend (Check)
         run: |
-          cd frontend
+          cd Energest/frontend
           npm run build || echo "Build check finalizado"
