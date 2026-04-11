@@ -17,14 +17,16 @@ jobs:
           python-version: '3.13'
       - name: Install Dependencies
         run: |
-          # Entra na pasta Energest e depois em backend
           cd Energest/backend
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install flake8 pytest httpx
+          # Instalando as bibliotecas base diretamente para evitar erros de requirements
+          pip install pytest httpx joblib pandas fastapi uvicorn
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run Tests
         run: |
           cd Energest/backend
+          # O export PYTHONPATH ajuda o robô a encontrar a pasta 'app'
+          export PYTHONPATH=$PYTHONPATH:.
           python -m pytest
 
   test-frontend:
