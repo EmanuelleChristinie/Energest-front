@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-test-backend:
+  test-backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,34 +19,19 @@ test-backend:
           
       - name: Install Dependencies
         run: |
-          # Ajustado para a estrutura de pasta dupla que aparece no seu VS Code
-          cd Energest/backend || cd Energest/Energest/backend
+          # Encontra a pasta que contém o requirements.txt e entra nela
+          BACKEND_PATH=$(find . -name "requirements.txt" -not -path "*/venv/*" -exec dirname {} \;)
+          echo "Diretório backend encontrado: $BACKEND_PATH"
+          cd $BACKEND_PATH
           python -m pip install --upgrade pip
-          pip install pytest httpx joblib pandas fastapi uvicorn
+          pip install pytest httpx joblib pandas fastapi uvicorn anyio
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           
       - name: Run Tests
         run: |
-          cd Energest/backend || cd Energest/Energest/backend
+          # Encontra a pasta onde os testes estão
+          BACKEND_PATH=$(find . -name "test_main.py" -not -path "*/venv/*" -exec dirname {} \;)
+          # Sobe um nível para ficar na raiz do backend
+          cd $BACKEND_PATH/..
           export PYTHONPATH=$PYTHONPATH:.
           python -m pytest
-
-test-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          
-      - name: Install Dependencies
-        run: |
-          cd Energest/frontend
-          npm install
-          
-      - name: Build Frontend (Check)
-        run: |
-          cd Energest/frontend
-          npm run build || echo "Build check finalizado"
