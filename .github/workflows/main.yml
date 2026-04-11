@@ -31,7 +31,7 @@ test-backend:
           export PYTHONPATH=$PYTHONPATH:.
           python -m pytest
 
-  test-frontend:
+test-frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
