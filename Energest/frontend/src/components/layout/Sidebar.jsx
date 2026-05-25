@@ -2,13 +2,13 @@
 import React from 'react';
 
 const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
+  // 1. Adicionamos o novo item "Relatórios IA" na lista
   const menuItems = [
     { id: 'dashboard', nome: 'Dashboard', icone: 'dashboard' },
     { id: 'ia', nome: 'Recomendações IA', icone: 'memory' },
     { id: 'equipamentos', nome: 'Equipamentos', icone: 'conveyor_belt' },
+    { id: 'relatorios', nome: 'Relatórios IA', icone: 'monitoring' }, // Novo Item
   ];
-
-  
 
   return (
     <aside className="sidebar" style={{
@@ -31,7 +31,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
               key={item.id}
               className="sidebar-item"
               onClick={() => setCurrentPage(item.id)}
-              title={item.nome} /* Mostra o nome ao passar o mouse quando estiver minimizado */
+              title={item.nome}
               style={{
                 display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px',
                 borderRadius: '8px', cursor: 'pointer',
@@ -41,7 +41,9 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
               }}
             >
               <span className="material-symbols-outlined">{item.icone}</span>
-              <span className="sidebar-text" style={{ fontSize: '15px', fontWeight: ativo ? '600' : '400', whiteSpace: 'nowrap' }}>{item.nome}</span>
+              <span className="sidebar-text" style={{ fontSize: '15px', fontWeight: ativo ? '600' : '400', whiteSpace: 'nowrap' }}>
+                {item.nome}
+              </span>
             </div>
           )
         })}
@@ -52,7 +54,15 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
         className="sidebar-item" 
         title="Sair do Sistema" 
         onClick={onLogout}
-        style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--danger)', cursor: 'pointer', padding: '12px 16px' }}
+        style={{ 
+          marginTop: 'auto', 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: '12px', 
+          color: 'var(--danger)', 
+          cursor: 'pointer', 
+          padding: '12px 16px' 
+        }}
       >
         <span className="material-symbols-outlined">logout</span>
         <span className="sidebar-text" style={{ fontWeight: '500', whiteSpace: 'nowrap' }}>Sair do Sistema</span>
